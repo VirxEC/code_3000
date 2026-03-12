@@ -27,7 +27,7 @@ def link_records(anon_df: pd.DataFrame, aux_df: pd.DataFrame) -> pd.DataFrame:
         how="inner",
     )
     unique_items = merged.groupby("anon_id")["name"].transform("size") == 1
-    return merged.loc[unique_items, ["anon_id", "name"]]
+    return merged[unique_items][["anon_id", "name"]].rename(columns={"name": "matched_name"})
 
 
 def deanonymization_rate(matches_df: pd.DataFrame, anon_df: pd.DataFrame) -> float:
